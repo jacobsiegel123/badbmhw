@@ -49,20 +49,20 @@ jar {
         exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
     }
     manifest {
-        attributes 'Main-Class': 'lib.src.java.edu.touro.mco152.bm.App'
+        attributes 'Main-Class': 'edu.touro.mco152.bm.App'
     }
 }
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'lib.src.java.edu.touro.mco152.bm.App'
-    }
-    archiveClassifier = "all"
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    with jar
-}
+//task fatJar(type: Jar) {
+//    manifest {
+//        attributes 'Main-Class': 'edu.touro.mco152.bm.App'
+//    }
+//    archiveClassifier = "all"
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//    with jar
+//}
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
