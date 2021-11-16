@@ -35,6 +35,7 @@ dependencies {
     implementation group: 'org.apache.derby', name: 'derbyshared', version: '10.15.2.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testCompileOnly 'org.junit.jupiter:junit-jupiter-params:5.3.1'
 }
 sourceSets  {
     // this may be needed to make entity classes visible to the persistence scanner
