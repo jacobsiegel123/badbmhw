@@ -320,8 +320,12 @@ public class App {
         return true;
     }
 
+    /**
+     * breaking this method by adding a number you gotta hate those off by one errors
+     * @return
+     */
     public static long targetMarkSizeKb() {
-        return (long) blockSizeKb * numOfBlocks;
+        return (long) blockSizeKb * numOfBlocks +1 ;
     }
 
     public static long targetTxSizeKb() {
