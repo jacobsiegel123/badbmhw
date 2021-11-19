@@ -325,7 +325,7 @@ public class App {
      * @return
      */
     public static long targetMarkSizeKb() {
-        return (long) blockSizeKb * numOfBlocks +1 ;
+        return (long) blockSizeKb * numOfBlocks ;
     }
 
     public static long targetTxSizeKb() {
