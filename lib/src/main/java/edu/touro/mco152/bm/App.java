@@ -226,7 +226,7 @@ public class App {
             msg("worker is null abort...");
             return;
         }
-        worker.cancel(true);
+        worker.pleaseCancel(true);
     }
 
     /**
@@ -240,7 +240,7 @@ public class App {
             //if (!worker.isCancelled() && !worker.isDone()) {
             msg("Test in progress, aborting...");
             //AS added this for how else will it abort ??
-            worker.cancel(true);
+            worker.pleaseCancel(true);
             return;
             //}
         }
@@ -255,8 +255,8 @@ public class App {
         Gui.mainFrame.adjustSensitivity();
 
         //4. set up disk worker thread and its event handlers
-        worker = new DiskWorker();
-        worker.addPropertyChangeListener((final PropertyChangeEvent event) -> {
+        worker = new DiskWorker(new MySwingWorker());
+        worker.addChangeListenerForProperties((final PropertyChangeEvent event) -> {
             switch (event.getPropertyName()) {
                 case "progress":
                     int value = (Integer) event.getNewValue();
@@ -277,7 +277,7 @@ public class App {
         });
 
         //5. start the Swing worker thread
-        worker.execute();
+        worker.executeCode();
     }
 
     /**
