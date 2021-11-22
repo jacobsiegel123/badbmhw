@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.touro.mco152.bm.AppTest" tests="3" skipped="0" failures="2" errors="0" timestamp="2021-11-17T00:43:07" hostname="YAAKOV-SIEGEL" time="0.053">
+<testsuite name="edu.touro.mco152.bm.AppTest" tests="3" skipped="0" failures="2" errors="0" timestamp="2021-11-22T04:45:06" hostname="YAAKOV-SIEGEL" time="0.091">
   <properties/>
-  <testcase name="crossChecktargetMarkSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.036">
+  <testcase name="crossChecktargetMarkSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.08">
     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;16384&gt; but was: &lt;16385&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;16384&gt; but was: &lt;16385&gt;
 	at app//org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
 	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
@@ -139,7 +139,7 @@
 	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
-  <testcase name="targetTxSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.003"/>
+  <testcase name="targetTxSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
