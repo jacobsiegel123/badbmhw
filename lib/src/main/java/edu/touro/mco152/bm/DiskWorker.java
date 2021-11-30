@@ -308,16 +308,8 @@ public class DiskWorker implements CallabaleInterface {
         worker.changeListenerForProperties(pcl);
     }
 
-
-    public boolean hasBeenCanceled() {
-        return worker.wasCanceled();
-    }
-
-
     public boolean pleaseCancel(boolean b) {
         return worker.letsCancel(b);
     }
-    public float getProgressTest(){
-            return progressTest;
-    }
+
 }
