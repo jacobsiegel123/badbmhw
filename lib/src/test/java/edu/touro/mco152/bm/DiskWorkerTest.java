@@ -89,15 +89,7 @@ class DiskWorkerTest implements IDiskAppWorker {
     public void setCallable(CallabaleInterface c) {
 
     }
-
-    @Test
-    void doInBackground() {
-    }
-
-    @Test
-    void execute() {
-    }
-
+    
     @Test
     void progressSetter() throws Exception {
 //        App.startBenchmark();
