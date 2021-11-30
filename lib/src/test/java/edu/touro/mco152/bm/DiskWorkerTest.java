@@ -2,24 +2,29 @@ package edu.touro.mco152.bm;
 
 import edu.touro.mco152.bm.ui.Gui;
 import edu.touro.mco152.bm.ui.MainFrame;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class DiskWorkerTest {
-    DiskWorker diskWorker = new DiskWorker(new MySwingWorker());
+class DiskWorkerTest implements IDiskAppWorker {
+    DiskWorker diskWorker = new DiskWorker(this);
+    int percentComplete;
+    DiskMark mark;
+    boolean temp;
+
     /**
      * Bruteforce setup of static classes/fields to allow DiskWorker to run.
      *
      * @author lcmcohen
      */
-    @BeforeEach
-    private void setupDefaultAsPerProperties()
-    {
+    @BeforeAll
+    static void setupDefaultAsPerProperties() {
         /// Do the minimum of what  App.init() would do to allow to run.
         Gui.mainFrame = new MainFrame();
         App.p = new Properties();
@@ -32,7 +37,7 @@ class DiskWorkerTest {
 
         // code from startBenchmark
         //4. create data dir reference
-        App.dataDir = new File(App.locationDir.getAbsolutePath()+File.separator+App.DATADIRNAME);
+        App.dataDir = new File(App.locationDir.getAbsolutePath() + File.separator + App.DATADIRNAME);
 
         //5. remove existing test data if exist
         if (App.dataDir.exists()) {
@@ -41,12 +46,50 @@ class DiskWorkerTest {
             } else {
                 App.msg("unable to remove existing data dir");
             }
-        }
-        else
-        {
+        } else {
             App.dataDir.mkdirs(); // create data dir if not already present
         }
     }
+
+
+    @Override
+    public void progressSetter(int i) {
+        percentComplete = i;
+
+    }
+
+    @Override
+    public void publishData(DiskMark m) {
+        mark = m;
+    }
+
+    @Override
+    public void codeToExecute() {
+
+    }
+
+
+    @Override
+    public void changeListenerForProperties(PropertyChangeListener pcl) {
+
+    }
+
+    @Override
+    public boolean wasCanceled() {
+        return false;
+    }
+
+
+    @Override
+    public boolean letsCancel(boolean b) {
+        return false;
+    }
+
+    @Override
+    public void setCallable(CallabaleInterface c) {
+
+    }
+
     @Test
     void doInBackground() {
     }
@@ -56,26 +99,24 @@ class DiskWorkerTest {
     }
 
     @Test
-    void progressSet() {
+    void progressSetter() throws Exception {
+//        App.startBenchmark();
+//        diskWorker.executeCode();
+
+        diskWorker.execute();
+
+
+        temp = percentComplete > 0;
+        System.out.println(percentComplete + "this is percent complete");
+        assertTrue(temp);
+        System.out.println("yay the test works");
     }
 
     @Test
-    void publishData() {
-    }
+    void publishData() throws Exception {
+        diskWorker.execute();
+        double temp = mark.getCumAvg();
+        assertTrue(temp > 0);
 
-    @Test
-    void executeCode() {
-    }
-
-    @Test
-    void addChangeListenerForProperties() {
-    }
-
-    @Test
-    void hasBeenCanceled() {
-    }
-
-    @Test
-    void pleaseCancel() {
     }
 }

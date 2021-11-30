@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.touro.mco152.bm.AppTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-11-23T05:12:54" hostname="YAAKOV-SIEGEL" time="0.122">
-  <properties/>
-  <testcase name="crossChecktargetMarkSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.097"/>
-  <testcase name="targetMarkSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.001"/>
-  <testcase name="targetTxSizeKb()" classname="edu.touro.mco152.bm.AppTest" time="0.02"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

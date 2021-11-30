@@ -4,17 +4,17 @@ import java.beans.PropertyChangeListener;
 
 public interface IDiskAppWorker {
 
-    void progressSet(int i);
+    void progressSetter(int i);
 
     void publishData(DiskMark m);
 
-    void executeCode();
+    void codeToExecute();
 
-    void addChangeListenerForProperties(PropertyChangeListener pcl);
+    void changeListenerForProperties(PropertyChangeListener pcl);
 
-    boolean hasBeenCanceled();
+    boolean wasCanceled();
 
-    boolean pleaseCancel(boolean b);
+    boolean letsCancel(boolean b);
 
     void setCallable(CallabaleInterface c);
 }

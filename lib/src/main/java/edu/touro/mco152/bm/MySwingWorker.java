@@ -11,7 +11,7 @@ import static edu.touro.mco152.bm.App.dataDir;
 public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDiskAppWorker {
     CallabaleInterface callabaleInterface;
     @Override
-    public void progressSet(int i) {
+    public void progressSetter(int i) {
         setProgress(i);
     }
 
@@ -21,22 +21,22 @@ public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDi
     }
 
     @Override
-    public void executeCode() {
+    public void codeToExecute() {
         execute();
     }
 
     @Override
-    public void addChangeListenerForProperties(PropertyChangeListener pcl) {
+    public void changeListenerForProperties(PropertyChangeListener pcl) {
         addPropertyChangeListener(pcl);
     }
 
     @Override
-    public boolean hasBeenCanceled() {
+    public boolean wasCanceled() {
         return isCancelled();
     }
 
     @Override
-    public boolean pleaseCancel(boolean b) {
+    public boolean letsCancel(boolean b) {
         return cancel(b);
     }
 
