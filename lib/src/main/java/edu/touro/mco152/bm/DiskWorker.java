@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,12 +38,18 @@ import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
  */
 
 public class DiskWorker implements CallabaleInterface {
-   private final IDiskSwingApp workerI;
-    public DiskWorker(IDiskSwingApp worker){
-        this.workerI = worker;
-        this.workerI.setCallable(this);
-    }
-//    @Override
+
+        private final IDiskAppWorker worker;
+        private float progressTest;
+
+
+        public DiskWorker(IDiskAppWorker worker){
+            this.worker = worker;
+            this.worker.setCallable(this);
+        }
+
+
+
     protected Boolean doInBackground() throws Exception {
 
         /*
@@ -114,7 +119,8 @@ public class DiskWorker implements CallabaleInterface {
               that keeps writing data (in its own loop - for specified # of blocks). Each 'Mark' is timed
               and is reported to the GUI for display as each Mark completes.
              */
-            for (int m = startFileNum; m < startFileNum + App.numOfMarks && !workerI.CancelledCode(); m++) {
+
+            for (int m = startFileNum; m < startFileNum + App.numOfMarks && !worker.wasCanceled(); m++) {
 
                 if (App.multiFile) {
                     testFile = new File(dataDir.getAbsolutePath()
@@ -148,7 +154,8 @@ public class DiskWorker implements CallabaleInterface {
                             /*
                               Report to GUI what percentage level of Entire BM (#Marks * #Blocks) is done.
                              */
-                            workerI.progressSet((int) percentComplete);
+
+                            worker.progressSetter((int) percentComplete);
                         }
                     }
                 } catch (IOException ex) {
@@ -171,7 +178,8 @@ public class DiskWorker implements CallabaleInterface {
                 /*
                   Let the GUI know the interim result described by the current Mark
                  */
-                workerI.publishData(wMark);
+
+                worker.publishData(wMark);
 
                 // Keep track of statistics to be displayed and persisted after all Marks are done.
                 run.setRunMax(wMark.getCumMax());
@@ -198,7 +206,8 @@ public class DiskWorker implements CallabaleInterface {
          */
 
         // try renaming all files to clear catch
-        if (App.readTest && App.writeTest && !workerI.CancelledCode()) {
+
+        if (App.readTest && App.writeTest && !worker.wasCanceled()) {
             JOptionPane.showMessageDialog(Gui.mainFrame,
                     "For valid READ measurements please clear the disk cache by\n" +
                             "using the included RAMMap.exe or flushmem.exe utilities.\n" +
@@ -222,7 +231,8 @@ public class DiskWorker implements CallabaleInterface {
             Gui.chartPanel.getChart().getTitle().setVisible(true);
             Gui.chartPanel.getChart().getTitle().setText(run.getDiskInfo());
 
-            for (int m = startFileNum; m < startFileNum + App.numOfMarks && !workerI.CancelledCode(); m++) {
+
+            for (int m = startFileNum; m < startFileNum + App.numOfMarks && !worker.wasCanceled(); m++) {
 
                 if (App.multiFile) {
                     testFile = new File(dataDir.getAbsolutePath()
@@ -247,7 +257,8 @@ public class DiskWorker implements CallabaleInterface {
                             rUnitsComplete++;
                             unitsComplete = rUnitsComplete + wUnitsComplete;
                             percentComplete = (float) unitsComplete / (float) unitsTotal * 100f;
-                            workerI.progressSet((int) percentComplete);
+
+                            worker.progressSetter((int) percentComplete);
                         }
                     }
                 } catch (FileNotFoundException ex) {
@@ -261,14 +272,17 @@ public class DiskWorker implements CallabaleInterface {
                 msg("m:" + m + " READ IO is " + rMark.getBwMbSec() + " MB/s    "
                         + "(MBread " + mbRead + " in " + sec + " sec)");
                 App.updateMetrics(rMark);
-                workerI.publishData(rMark);
+
+
+                publishData(rMark);
 
                 run.setRunMax(rMark.getCumMax());
                 run.setRunMin(rMark.getCumMin());
                 run.setRunAvg(rMark.getCumAvg());
                 run.setEndTime(new Date());
-            }
+                progressTest = ((float) (rUnitsComplete + wUnitsComplete) / (float) unitsTotal * 100f);
 
+            }
             EntityManager em = EM.getEntityManager();
             em.getTransaction().begin();
             em.persist(run);
@@ -279,38 +293,34 @@ public class DiskWorker implements CallabaleInterface {
         App.nextMarkNumber += App.numOfMarks;
         return true;
     }
+
+
+
+
     @Override
-    public boolean execute() throws Exception{
+    public boolean execute() throws Exception {
         return doInBackground();
     }
 
-    public boolean CancelledCode() {
-        return workerI.CancelledCode();
-    }
 
 
-    public void progressSet(int a) {
-         workerI.progressSet(a);
-    }
 
-
-    public void publishData(DiskMark d) {
-        workerI.publishData(d);
-    }
-
-
-    public boolean cancelCode(boolean n) {
-        return workerI.cancelCode(n);
-    }
-
-
-    public void addChangeListenerForProperties(PropertyChangeListener pcl) {
-        workerI.addChangeListenerForProperties(pcl);
+    public void publishData(DiskMark m) {
+        worker.publishData(m);
     }
 
 
     public void executeCode() {
-        workerI.executeCode();
+        worker.codeToExecute();
+    }
+
+
+    public void addChangeListenerForProperties(PropertyChangeListener pcl) {
+        worker.changeListenerForProperties(pcl);
+    }
+
+    public boolean pleaseCancel(boolean b) {
+        return worker.letsCancel(b);
     }
 
 }

@@ -3,48 +3,53 @@ package edu.touro.mco152.bm;
 import edu.touro.mco152.bm.ui.Gui;
 
 import javax.swing.*;
-import java.beans.PropertyChangeEvent;
+
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import static edu.touro.mco152.bm.App.dataDir;
 
-public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDiskSwingApp{
+
+public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDiskAppWorker {
     CallabaleInterface callabaleInterface;
     @Override
-    protected Boolean doInBackground() throws Exception {
-        return callabaleInterface.execute();
-    }
-
-
-    @Override
-    public boolean CancelledCode() {
-        return isCancelled();
+    public void progressSetter(int i) {
+        setProgress(i);
     }
 
     @Override
-    public void progressSet(int a) {
-        setProgress(a);
+    public void publishData(DiskMark m) {
+        publish(m);
     }
 
     @Override
-    public void publishData(DiskMark d) {
-        publish(d);
+    public void codeToExecute() {
+        execute();
     }
 
     @Override
-    public boolean cancelCode(boolean n) {
-        return cancel(n);
-    }
-
-    @Override
-    public void addChangeListenerForProperties(PropertyChangeListener pcl) {
+    public void changeListenerForProperties(PropertyChangeListener pcl) {
         addPropertyChangeListener(pcl);
     }
 
     @Override
-    public void executeCode() {
-        execute();
+    public boolean wasCanceled() {
+        return isCancelled();
+    }
+
+    @Override
+    public boolean letsCancel(boolean b) {
+        return cancel(b);
+    }
+
+    @Override
+    public void setCallable(CallabaleInterface c) {
+        this.callabaleInterface = c;
+    }
+
+    @Override
+    protected Boolean doInBackground() throws Exception {
+        return callabaleInterface.execute();
     }
     /**
      * Process a list of 'chunks' that have been processed, ie that our thread has previously
@@ -72,8 +77,4 @@ public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDi
         Gui.mainFrame.adjustSensitivity();
     }
 
-    @Override
-    public void setCallable(CallabaleInterface callabaleInterface){
-        this.callabaleInterface = callabaleInterface;
-    }
 }

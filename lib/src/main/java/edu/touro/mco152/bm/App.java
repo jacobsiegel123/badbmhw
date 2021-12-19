@@ -226,7 +226,9 @@ public class App {
             msg("worker is null abort...");
             return;
         }
-        worker.cancelCode(true);
+
+        worker.pleaseCancel(true);
+
     }
 
     /**
@@ -240,7 +242,9 @@ public class App {
             //if (!worker.isCancelled() && !worker.isDone()) {
             msg("Test in progress, aborting...");
             //AS added this for how else will it abort ??
-            worker.cancelCode(true);
+
+            worker.pleaseCancel(true);
+
             return;
             //}
         }
@@ -325,7 +329,7 @@ public class App {
      * @return
      */
     public static long targetMarkSizeKb() {
-        return (long) blockSizeKb * numOfBlocks +1 ;
+        return (long) blockSizeKb * numOfBlocks ;
     }
 
     public static long targetTxSizeKb() {
