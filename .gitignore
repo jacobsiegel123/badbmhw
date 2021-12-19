@@ -28,6 +28,7 @@ gradle/wrapper
 jdm.properties
 
 lib.build
+jdm.properties
 # Ignore Gradle project-specific cache directory
 #.gradle
 
