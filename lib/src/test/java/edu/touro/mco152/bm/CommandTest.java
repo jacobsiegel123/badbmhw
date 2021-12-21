@@ -2,6 +2,7 @@ package edu.touro.mco152.bm;
 
 import edu.touro.mco152.bm.command.CommandExecutor;
 import edu.touro.mco152.bm.command.ReadBenchmark;
+import edu.touro.mco152.bm.command.WriteBenchmark;
 import edu.touro.mco152.bm.persist.DiskRun;
 import edu.touro.mco152.bm.ui.Gui;
 import edu.touro.mco152.bm.ui.MainFrame;
@@ -22,7 +23,7 @@ public class CommandTest implements IDiskAppWorker {
      *
      * @author lcmcohen
      */
-    
+
     private final CommandExecutor executor = new CommandExecutor();
 
     @BeforeAll
@@ -69,7 +70,7 @@ public class CommandTest implements IDiskAppWorker {
     @Test
     void writeBenchmarkTest() throws IOException {
 
-        assertTrue(executor.execute(new ReadBenchmark(this,25,128,2048, DiskRun.BlockSequence.SEQUENTIAL)));
+        assertTrue(executor.execute(new WriteBenchmark(this,25,128,2048, DiskRun.BlockSequence.SEQUENTIAL)));
     }
 
     @Override
