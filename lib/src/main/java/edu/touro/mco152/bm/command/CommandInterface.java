@@ -8,5 +8,5 @@ import java.io.IOException;
  * the command interface which read and write benchmark implement
  */
 public interface CommandInterface {
-    void execute() throws IOException;
+    boolean execute() throws IOException;
 }

@@ -48,7 +48,7 @@ public class ReadBenchmark implements CommandInterface{
             this.sequence = sequence;
         }
     @Override
-    public void execute() throws IOException {
+    public boolean execute() throws IOException {
         // declare local vars formerly in DiskWorker
 
         int wUnitsComplete = 0,
@@ -137,5 +137,6 @@ public class ReadBenchmark implements CommandInterface{
         em.getTransaction().commit();
 
         Gui.runPanel.addRun(run);
+        return true;
     }
 }
