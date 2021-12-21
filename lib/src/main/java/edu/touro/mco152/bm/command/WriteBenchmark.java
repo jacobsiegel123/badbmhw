@@ -75,7 +75,7 @@ public class WriteBenchmark implements CommandInterface{
         run.setNumMarks(marks);
         run.setNumBlocks(numBlocks);
         run.setBlockSize(sizeBlocks);
-        run.setTxSize(App.targetTxSizeKb());
+        run.setTxSize((long)marks * numBlocks * sizeBlocks);
         run.setDiskInfo(Util.getDiskInfo(dataDir));
 
         // Tell logger and GUI to display what we know so far about the Run

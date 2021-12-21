@@ -11,7 +11,8 @@ public class CommandExecutor {
      * @param command takes in the commandInterface
      * @throws IOException
      */
-    public void execute(CommandInterface command) throws IOException {
-        command.execute();
+    public boolean execute(CommandInterface command) throws IOException {
+        boolean execute = command.execute();
+        return execute;
     }
 }

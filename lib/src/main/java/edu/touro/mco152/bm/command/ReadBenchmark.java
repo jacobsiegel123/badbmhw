@@ -75,7 +75,7 @@ public class ReadBenchmark implements CommandInterface{
         run.setNumMarks(marks);
         run.setNumBlocks(numBlocks);
         run.setBlockSize(sizeBlocks);
-        run.setTxSize(marks * numBlocks * sizeBlocks);
+        run.setTxSize((long)marks * numBlocks * sizeBlocks);
         run.setDiskInfo(Util.getDiskInfo(dataDir));
 
         msg("disk info: (" + run.getDiskInfo() + ")");
