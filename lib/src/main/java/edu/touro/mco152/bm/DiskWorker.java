@@ -1,5 +1,6 @@
 package edu.touro.mco152.bm;
 
+import edu.touro.mco152.bm.command.CommandExecutor;
 import edu.touro.mco152.bm.command.ReadBenchmark;
 import edu.touro.mco152.bm.command.WriteBenchmark;
 import edu.touro.mco152.bm.persist.DiskRun;
@@ -41,11 +42,12 @@ import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
 
 public class DiskWorker implements CallabaleInterface {
         private final IDiskAppWorker worker;
-
+        private final CommandExecutor executor;
 
         public DiskWorker(IDiskAppWorker worker){
             this.worker = worker;
             this.worker.setCallable(this);
+            executor = new CommandExecutor();
         }
 
 
@@ -94,9 +96,10 @@ public class DiskWorker implements CallabaleInterface {
         /*
           The GUI allows either a write, read, or both types of BMs to be started. They are done serially.
          */
+
         if (App.writeTest) {
-            WriteBenchmark w = new WriteBenchmark();
-            w.execute(worker);
+            executor.execute(new WriteBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence));
+
         }
 
         /*
@@ -118,8 +121,7 @@ public class DiskWorker implements CallabaleInterface {
 
         // Same as above, just for Read operations instead of Writes.
         if (App.readTest) {
-            ReadBenchmark r = new ReadBenchmark();
-            r.execute(worker);
+            executor.execute(new ReadBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence));
         }
         App.nextMarkNumber += App.numOfMarks;
         return true;
