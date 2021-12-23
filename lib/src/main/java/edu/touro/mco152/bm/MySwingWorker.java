@@ -3,10 +3,12 @@ package edu.touro.mco152.bm;
 import edu.touro.mco152.bm.ui.Gui;
 
 import javax.swing.*;
+
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import static edu.touro.mco152.bm.App.dataDir;
+
 
 public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDiskAppWorker {
     CallabaleInterface callabaleInterface;
@@ -55,6 +57,7 @@ public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDi
      * Module_6_RefactorBadBM Swing_DiskWorker_Tutorial.mp4
      * @param markList a list of DiskMark objects reflecting some completed benchmarks
      */
+
     protected void process(List<DiskMark> markList) {
         markList.stream().forEach((dm) -> {
             if (dm.type == DiskMark.MarkType.WRITE) {
@@ -73,4 +76,5 @@ public class MySwingWorker extends SwingWorker<Boolean, DiskMark> implements IDi
         App.state = App.State.IDLE_STATE;
         Gui.mainFrame.adjustSensitivity();
     }
+
 }

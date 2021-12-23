@@ -27,6 +27,8 @@ gradle/wrapper
 #ignore changes to the apps properties file
 lib/jdm.properties
 
+lib.build
+jdm.properties
 # Ignore Gradle project-specific cache directory
 #.gradle
 

@@ -38,6 +38,7 @@ import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
  */
 
 public class DiskWorker implements CallabaleInterface {
+
         private final IDiskAppWorker worker;
         private float progressTest;
 
@@ -46,6 +47,7 @@ public class DiskWorker implements CallabaleInterface {
             this.worker = worker;
             this.worker.setCallable(this);
         }
+
 
 
     protected Boolean doInBackground() throws Exception {
@@ -117,6 +119,7 @@ public class DiskWorker implements CallabaleInterface {
               that keeps writing data (in its own loop - for specified # of blocks). Each 'Mark' is timed
               and is reported to the GUI for display as each Mark completes.
              */
+
             for (int m = startFileNum; m < startFileNum + App.numOfMarks && !worker.wasCanceled(); m++) {
 
                 if (App.multiFile) {
@@ -151,6 +154,7 @@ public class DiskWorker implements CallabaleInterface {
                             /*
                               Report to GUI what percentage level of Entire BM (#Marks * #Blocks) is done.
                              */
+
                             worker.progressSetter((int) percentComplete);
                         }
                     }
@@ -174,6 +178,7 @@ public class DiskWorker implements CallabaleInterface {
                 /*
                   Let the GUI know the interim result described by the current Mark
                  */
+
                 worker.publishData(wMark);
 
                 // Keep track of statistics to be displayed and persisted after all Marks are done.
@@ -201,6 +206,7 @@ public class DiskWorker implements CallabaleInterface {
          */
 
         // try renaming all files to clear catch
+
         if (App.readTest && App.writeTest && !worker.wasCanceled()) {
             JOptionPane.showMessageDialog(Gui.mainFrame,
                     "For valid READ measurements please clear the disk cache by\n" +
@@ -224,6 +230,7 @@ public class DiskWorker implements CallabaleInterface {
 
             Gui.chartPanel.getChart().getTitle().setVisible(true);
             Gui.chartPanel.getChart().getTitle().setText(run.getDiskInfo());
+
 
             for (int m = startFileNum; m < startFileNum + App.numOfMarks && !worker.wasCanceled(); m++) {
 
@@ -250,6 +257,7 @@ public class DiskWorker implements CallabaleInterface {
                             rUnitsComplete++;
                             unitsComplete = rUnitsComplete + wUnitsComplete;
                             percentComplete = (float) unitsComplete / (float) unitsTotal * 100f;
+
                             worker.progressSetter((int) percentComplete);
                         }
                     }
@@ -264,6 +272,7 @@ public class DiskWorker implements CallabaleInterface {
                 msg("m:" + m + " READ IO is " + rMark.getBwMbSec() + " MB/s    "
                         + "(MBread " + mbRead + " in " + sec + " sec)");
                 App.updateMetrics(rMark);
+
 
                 publishData(rMark);
 
@@ -284,6 +293,8 @@ public class DiskWorker implements CallabaleInterface {
         App.nextMarkNumber += App.numOfMarks;
         return true;
     }
+
+
 
 
     @Override
