@@ -41,6 +41,7 @@ import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
  */
 
 public class DiskWorker implements CallabaleInterface {
+
         private final IDiskAppWorker worker;
         private final CommandExecutor executor;
 
@@ -49,6 +50,7 @@ public class DiskWorker implements CallabaleInterface {
             this.worker.setCallable(this);
             executor = new CommandExecutor();
         }
+
 
 
     protected Boolean doInBackground() throws Exception {
@@ -100,6 +102,7 @@ public class DiskWorker implements CallabaleInterface {
         if (App.writeTest) {
             executor.execute(new WriteBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence));
 
+
         }
 
         /*
@@ -109,6 +112,7 @@ public class DiskWorker implements CallabaleInterface {
          */
 
         // try renaming all files to clear catch
+
         if (App.readTest && App.writeTest && !worker.wasCanceled()) {
             JOptionPane.showMessageDialog(Gui.mainFrame,
                     "For valid READ measurements please clear the disk cache by\n" +
@@ -121,11 +125,15 @@ public class DiskWorker implements CallabaleInterface {
 
         // Same as above, just for Read operations instead of Writes.
         if (App.readTest) {
+
             executor.execute(new ReadBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence));
+
         }
         App.nextMarkNumber += App.numOfMarks;
         return true;
     }
+
+
 
 
     @Override

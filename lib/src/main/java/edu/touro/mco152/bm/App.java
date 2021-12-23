@@ -226,7 +226,9 @@ public class App {
             msg("worker is null abort...");
             return;
         }
+
         worker.pleaseCancel(true);
+
     }
 
     /**
@@ -240,7 +242,9 @@ public class App {
             //if (!worker.isCancelled() && !worker.isDone()) {
             msg("Test in progress, aborting...");
             //AS added this for how else will it abort ??
+
             worker.pleaseCancel(true);
+
             return;
             //}
         }
