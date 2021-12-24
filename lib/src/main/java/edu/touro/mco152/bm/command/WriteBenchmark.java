@@ -1,9 +1,6 @@
 package edu.touro.mco152.bm.command;
 
-import edu.touro.mco152.bm.App;
-import edu.touro.mco152.bm.DiskMark;
-import edu.touro.mco152.bm.IDiskAppWorker;
-import edu.touro.mco152.bm.Util;
+import edu.touro.mco152.bm.*;
 import edu.touro.mco152.bm.persist.DiskRun;
 import edu.touro.mco152.bm.persist.EM;
 import edu.touro.mco152.bm.ui.Gui;
@@ -12,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +24,8 @@ import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
  */
 
 public class WriteBenchmark implements CommandInterface{
+
+    public ArrayList<ObserverInterface> observerList = new ArrayList();
 
     private IDiskAppWorker worker;
     private int marks, numBlocks,sizeBlocks;
@@ -47,6 +47,19 @@ public class WriteBenchmark implements CommandInterface{
         this.sizeBlocks = sizeBlocks;
         this.sequence = sequence;
     }
+
+    public void register(ObserverInterface observer){
+        observerList.add(observer);
+
+    }
+
+
+    private void updateEveryone(DiskRun run){
+        for (ObserverInterface o : observerList) {
+            o.update(run);
+        }
+    }
+
     @Override
     public boolean execute() throws IOException {
         // declare local vars formerly in DiskWorker
@@ -163,13 +176,7 @@ public class WriteBenchmark implements CommandInterface{
             /*
               Persist info about the Write BM Run (e.g. into Derby Database) and add it to a GUI panel
              */
-        EntityManager em = EM.getEntityManager();
-        em.getTransaction().begin();
-        em.persist(run);
-        em.getTransaction().commit();
-
-        Gui.runPanel.addRun(run);
-
+        updateEveryone(run);
         return true;
     }
 }

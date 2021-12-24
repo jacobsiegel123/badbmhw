@@ -3,8 +3,10 @@ package edu.touro.mco152.bm;
 import edu.touro.mco152.bm.command.CommandExecutor;
 import edu.touro.mco152.bm.command.ReadBenchmark;
 import edu.touro.mco152.bm.command.WriteBenchmark;
+import edu.touro.mco152.bm.persist.AddToDatabaseObserver;
 import edu.touro.mco152.bm.persist.DiskRun;
 import edu.touro.mco152.bm.persist.EM;
+import edu.touro.mco152.bm.ui.AddToGuiObserver;
 import edu.touro.mco152.bm.ui.Gui;
 
 import jakarta.persistence.EntityManager;
@@ -99,8 +101,12 @@ public class DiskWorker implements CallabaleInterface {
           The GUI allows either a write, read, or both types of BMs to be started. They are done serially.
          */
 
+
         if (App.writeTest) {
-            executor.execute(new WriteBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence));
+            WriteBenchmark writeBenchmark = new WriteBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence);
+            writeBenchmark.register(new AddToGuiObserver());
+            writeBenchmark.register(new AddToDatabaseObserver());
+            executor.execute(writeBenchmark);
 
 
         }
@@ -125,8 +131,11 @@ public class DiskWorker implements CallabaleInterface {
 
         // Same as above, just for Read operations instead of Writes.
         if (App.readTest) {
+            ReadBenchmark readBenchmark = new ReadBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence);
+            readBenchmark.register(new AddToGuiObserver());
+            readBenchmark.register(new AddToDatabaseObserver());
+            executor.execute(readBenchmark);
 
-            executor.execute(new ReadBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence));
 
         }
         App.nextMarkNumber += App.numOfMarks;
