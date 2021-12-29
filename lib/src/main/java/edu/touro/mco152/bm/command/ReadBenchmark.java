@@ -1,10 +1,9 @@
 package edu.touro.mco152.bm.command;
 
 import edu.touro.mco152.bm.*;
+import edu.touro.mco152.bm.observer.ObserverInterface;
 import edu.touro.mco152.bm.persist.DiskRun;
-import edu.touro.mco152.bm.persist.EM;
 import edu.touro.mco152.bm.ui.Gui;
-import jakarta.persistence.EntityManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +30,7 @@ public class ReadBenchmark implements CommandInterface{
         private DiskRun.BlockSequence sequence;
 
     /**
-     * we remove control from app and set the things here
+     * we remove control from app and set the things here, have made ReadBenchmark into the subject
      * @param worker take in a IDiskAppWorker
      * @param marks takes in the marks instead of numOfMarks from app
      * @param numBlocks takes in the numblocks instead of numOfBlock from app
@@ -47,12 +46,19 @@ public class ReadBenchmark implements CommandInterface{
             this.sequence = sequence;
         }
 
+    /**
+     * we register a observer
+     * @param observer takes in a observer to register
+     */
     public void register(ObserverInterface observer){
         observerList.add(observer);
 
     }
 
-
+    /**
+     * updates all observers that have been registered
+     * @param run takes in a diskRun
+     */
     private void updateEveryone(DiskRun run){
         for (ObserverInterface o : observerList) {
             o.update(run);

@@ -1,10 +1,9 @@
 package edu.touro.mco152.bm.command;
 
 import edu.touro.mco152.bm.*;
+import edu.touro.mco152.bm.observer.ObserverInterface;
 import edu.touro.mco152.bm.persist.DiskRun;
-import edu.touro.mco152.bm.persist.EM;
 import edu.touro.mco152.bm.ui.Gui;
-import jakarta.persistence.EntityManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import static edu.touro.mco152.bm.App.msg;
 import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
 
 /**
- * class to do read benchmarks and made into a command
+ * class to do read benchmarks and made into a command, have made WriteBenchmark into the subject
  * code was removed from diskworker and placed into this new class
  */
 
@@ -47,13 +46,19 @@ public class WriteBenchmark implements CommandInterface{
         this.sizeBlocks = sizeBlocks;
         this.sequence = sequence;
     }
-
+    /**
+     * we register a observer
+     * @param observer takes in a observer to register
+     */
     public void register(ObserverInterface observer){
         observerList.add(observer);
 
     }
 
-
+    /**
+     * updates all observers that have been registered
+     * @param run takes in a diskRun
+     */
     private void updateEveryone(DiskRun run){
         for (ObserverInterface o : observerList) {
             o.update(run);

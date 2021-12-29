@@ -3,6 +3,7 @@ package edu.touro.mco152.bm;
 import edu.touro.mco152.bm.command.CommandExecutor;
 import edu.touro.mco152.bm.command.ReadBenchmark;
 import edu.touro.mco152.bm.command.WriteBenchmark;
+import edu.touro.mco152.bm.observer.ObserverRules;
 import edu.touro.mco152.bm.persist.AddToDatabaseObserver;
 import edu.touro.mco152.bm.persist.DiskRun;
 import edu.touro.mco152.bm.persist.EM;
@@ -106,6 +107,7 @@ public class DiskWorker implements CallabaleInterface {
             WriteBenchmark writeBenchmark = new WriteBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence);
             writeBenchmark.register(new AddToGuiObserver());
             writeBenchmark.register(new AddToDatabaseObserver());
+            writeBenchmark.register(new ObserverRules());
             executor.execute(writeBenchmark);
 
 
@@ -134,6 +136,8 @@ public class DiskWorker implements CallabaleInterface {
             ReadBenchmark readBenchmark = new ReadBenchmark(worker, numOfMarks,numOfBlocks,blockSizeKb, blockSequence);
             readBenchmark.register(new AddToGuiObserver());
             readBenchmark.register(new AddToDatabaseObserver());
+            readBenchmark.register(new ObserverRules());
+
             executor.execute(readBenchmark);
 
 

@@ -62,7 +62,7 @@ public class ObserverTest implements IDiskAppWorker {
 
     }
     /**
-     * asserts if observer is running properly for the read tests
+     * sets up code to see if observer is running properly for the read tests
      * @throws IOException
      */
     @Test
@@ -79,7 +79,7 @@ public class ObserverTest implements IDiskAppWorker {
     }
 
     /**
-     * asserts if observer is running properly for the write tests
+     * sets up code to see if observer is running properly for the write tests
      * @throws IOException
      */
 @Test
@@ -94,6 +94,10 @@ public class ObserverTest implements IDiskAppWorker {
         writeTest = observerTest.flag();
 
     }
+
+    /**
+     * asserts to see if read and write test worked
+     */
     @AfterAll
     @Test
     static void ifFlagged(){
