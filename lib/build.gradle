@@ -25,6 +25,8 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:30.1.1-jre'
+    implementation group: 'com.slack.api', name: 'slack-api-client', version: '1.16.0'
+
     // Charting api/runtime
     api  group: 'org.jfree', name: 'jfreechart', version: '1.0.17'
 // persistence API
@@ -33,6 +35,7 @@ dependencies {
 // DBMS
     implementation group: 'org.apache.derby', name: 'derby', version: '10.15.2.0'
     implementation group: 'org.apache.derby', name: 'derbyshared', version: '10.15.2.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
     testCompileOnly 'org.junit.jupiter:junit-jupiter-params:5.3.1'
